@@ -1,10 +1,10 @@
-async function scrapeAPI(url, city_id, zone_id, source_id) {
+export async function scrapeAPI(url, source) {
   const json = await (await fetch(url)).json();
 
   return json.items.map(item => ({
-    source_id,
-    city_id,
-    zone_id,
+    source_id: source.id,
+    city_id: source.city_id,
+    zone_id: source.zone_id,
     title: item.title,
     body: item.summary || "",
     url: item.url,
