@@ -1,18 +1,29 @@
-import { fetchRSS } from "../../functions/fetchRSS.js";
-import { cleanHTML } from "../../functions/cleanHTML.js";
-import { hash } from "../../functions/hash.js";
+async function scrapeRSS(url, city_id, zone_id, source_id) {
+  const res = await fetch(url);
+  const xml = await res.text();
 
-export async function rssParser(source) {
-  const feed = await fetchRSS(source.url);
+  const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)];
 
-  return feed.items.map(item => ({
-    source_id: source.id,
-    city_id: source.city_id,
-    zone_id: source.zone_id,
-    title: item.title,
-    body: cleanHTML(item.contentSnippet || item.content || ""),
-    url: item.link,
-    published_at: item.isoDate || null,
-    hash: hash(item.title + item.link)
-  }));
+  return items.map(item => {
+    const title = extractTag(item[1], "title");
+    const link = extractTag(item[1], "link");
+    const description = extractTag(item[1], "description");
+    const pubDate = extractTag(item[1], "pubDate");
+
+    return {
+      source_id,
+      city_id,
+      zone_id,
+      title,
+      body: stripHTML(description),
+      url: link,
+      published_at: pubDate,
+      hash: hash(title + link)
+    };
+  });
+}
+
+function extractTag(xml, tag) {
+  const match = xml.match(new RegExp(`<${tag}>([\\s\\S]*?)<\\/${tag}>`));
+  return match ? match[1].trim() : "";
 }
