@@ -1,0 +1,55 @@
+name = "my-hood-news"
+main = "src/workers/api.js"
+compatibility_date = "2024-04-20"
+
+# -------------------------
+# D1 DATABASE
+# -------------------------
+[[d1_databases]]
+binding = "DB"
+database_name = "my_hood_news_db"
+database_id = "REPLACE_WITH_REAL_DB_ID"
+
+# -------------------------
+# QUEUES
+# -------------------------
+[[queues.producers]]
+queue = "SCRAPE_QUEUE"
+binding = "SCRAPE_QUEUE"
+
+[[queues.producers]]
+queue = "NORMALIZE_QUEUE"
+binding = "NORMALIZE_QUEUE"
+
+[[queues.consumers]]
+queue = "SCRAPE_QUEUE"
+max_batch_size = 10
+max_batch_timeout = 30
+worker = "scraper"
+
+[[queues.consumers]]
+queue = "NORMALIZE_QUEUE"
+max_batch_size = 10
+max_batch_timeout = 30
+worker = "normalizer"
+
+# -------------------------
+# CRON SCHEDULER
+# -------------------------
+[triggers]
+crons = ["*/15 * * * *"]  # every 15 minutes
+
+# -------------------------
+# WORKERS
+# -------------------------
+[services.api]
+main = "src/workers/api.js"
+
+[services.scraper]
+main = "src/workers/scraper.js"
+
+[services.normalizer]
+main = "src/workers/normalizer.js"
+
+[services.scheduler]
+main = "src/workers/scheduler.js"
