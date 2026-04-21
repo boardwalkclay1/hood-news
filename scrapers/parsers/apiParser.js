@@ -1,13 +1,10 @@
-import { fetchJSON } from "../../functions/fetchJSON.js";
-import { hash } from "../../functions/hash.js";
+async function scrapeAPI(url, city_id, zone_id, source_id) {
+  const json = await (await fetch(url)).json();
 
-export async function apiParser(source) {
-  const data = await fetchJSON(source.url);
-
-  return data.items.map(item => ({
-    source_id: source.id,
-    city_id: source.city_id,
-    zone_id: source.zone_id,
+  return json.items.map(item => ({
+    source_id,
+    city_id,
+    zone_id,
     title: item.title,
     body: item.summary || "",
     url: item.url,
