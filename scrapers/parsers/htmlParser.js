@@ -1,10 +1,10 @@
-async function scrapeHTML(url, city_id, zone_id, source_id) {
+export async function scrapeHTML(url, source) {
   const res = await fetch(url);
 
   const articles = [];
 
   const rewriter = new HTMLRewriter()
-    .on("article", {
+    .on("article, .post, .news-item", {
       element(el) {
         const title = el.querySelector("h1,h2,h3")?.textContent || "";
         const link = el.querySelector("a")?.getAttribute("href") || "";
@@ -12,9 +12,9 @@ async function scrapeHTML(url, city_id, zone_id, source_id) {
 
         if (title && link) {
           articles.push({
-            source_id,
-            city_id,
-            zone_id,
+            source_id: source.id,
+            city_id: source.city_id,
+            zone_id: source.zone_id,
             title,
             body,
             url: absoluteURL(url, link),
