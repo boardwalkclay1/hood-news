@@ -1,17 +1,29 @@
-import { fetchHTML } from "../../functions/fetchHTML.js";
-import { extractText } from "../../functions/extractText.js";
+export async function scrapeJobs(url, source) {
+  const res = await fetch(url);
+  const jobs = [];
 
-export async function jobsParser(source) {
-  const html = await fetchHTML(source.url);
-  const jobs = extractText(html, "jobs");
+  const rewriter = new HTMLRewriter()
+    .on(".job, .listing, .job-item", {
+      element(el) {
+        const title = el.querySelector("h2,h3")?.textContent || "";
+        const company = el.querySelector(".company")?.textContent || "";
+        const link = el.querySelector("a")?.getAttribute("href") || "";
 
-  return jobs.map(job => ({
-    city_id: source.city_id,
-    zone_id: source.zone_id,
-    title: job.title,
-    company: job.company,
-    description: job.description,
-    apply_url: job.apply_url,
-    posted_at: job.posted_at || null
-  }));
+        if (title && link) {
+          jobs.push({
+            city_id: source.city_id,
+            zone_id: source.zone_id,
+            title,
+            company,
+            description: "",
+            apply_url: absoluteURL(url, link),
+            posted_at: null
+          });
+        }
+      }
+    });
+
+  await rewriter.transform(res).text();
+
+  return jobs;
 }
