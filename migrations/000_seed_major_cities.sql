@@ -1,0 +1,126 @@
+-- ============================
+-- 50 MAJOR U.S. CITIES
+-- ============================
+
+INSERT INTO cities (id, name, state, lat, lng, population, status) VALUES
+(1, 'New York', 'NY', 40.7128, -74.0060, 8804190, 'active'),
+(2, 'Los Angeles', 'CA', 34.0522, -118.2437, 3898747, 'active'),
+(3, 'Chicago', 'IL', 41.8781, -87.6298, 2746388, 'active'),
+(4, 'Houston', 'TX', 29.7604, -95.3698, 2304580, 'active'),
+(5, 'Phoenix', 'AZ', 33.4484, -112.0740, 1680992, 'active'),
+(6, 'Philadelphia', 'PA', 39.9526, -75.1652, 1584064, 'active'),
+(7, 'San Antonio', 'TX', 29.4241, -98.4936, 1547253, 'active'),
+(8, 'San Diego', 'CA', 32.7157, -117.1611, 1386932, 'active'),
+(9, 'Dallas', 'TX', 32.7767, -96.7970, 1304379, 'active'),
+(10, 'San Jose', 'CA', 37.3382, -121.8863, 1013240, 'active'),
+(11, 'Austin', 'TX', 30.2672, -97.7431, 964177, 'active'),
+(12, 'Jacksonville', 'FL', 30.3322, -81.6557, 949611, 'active'),
+(13, 'Fort Worth', 'TX', 32.7555, -97.3308, 935508, 'active'),
+(14, 'Columbus', 'OH', 39.9612, -82.9988, 905748, 'active'),
+(15, 'Charlotte', 'NC', 35.2271, -80.8431, 897720, 'active'),
+(16, 'San Francisco', 'CA', 37.7749, -122.4194, 815201, 'active'),
+(17, 'Indianapolis', 'IN', 39.7684, -86.1581, 882039, 'active'),
+(18, 'Seattle', 'WA', 47.6062, -122.3321, 733919, 'active'),
+(19, 'Denver', 'CO', 39.7392, -104.9903, 711463, 'active'),
+(20, 'Washington', 'DC', 38.9072, -77.0369, 689545, 'active'),
+(21, 'Boston', 'MA', 42.3601, -71.0589, 675647, 'active'),
+(22, 'El Paso', 'TX', 31.7619, -106.4850, 678815, 'active'),
+(23, 'Nashville', 'TN', 36.1627, -86.7816, 689447, 'active'),
+(24, 'Detroit', 'MI', 42.3314, -83.0458, 639111, 'active'),
+(25, 'Oklahoma City', 'OK', 35.4676, -97.5164, 681054, 'active'),
+(26, 'Portland', 'OR', 45.5051, -122.6750, 652503, 'active'),
+(27, 'Las Vegas', 'NV', 36.1699, -115.1398, 646790, 'active'),
+(28, 'Memphis', 'TN', 35.1495, -90.0490, 633104, 'active'),
+(29, 'Louisville', 'KY', 38.2527, -85.7585, 633045, 'active'),
+(30, 'Baltimore', 'MD', 39.2904, -76.6122, 576498, 'active'),
+(31, 'Milwaukee', 'WI', 43.0389, -87.9065, 563305, 'active'),
+(32, 'Albuquerque', 'NM', 35.0844, -106.6504, 564559, 'active'),
+(33, 'Tucson', 'AZ', 32.2226, -110.9747, 542629, 'active'),
+(34, 'Fresno', 'CA', 36.7378, -119.7871, 542107, 'active'),
+(35, 'Mesa', 'AZ', 33.4152, -111.8315, 504258, 'active'),
+(36, 'Sacramento', 'CA', 38.5816, -121.4944, 524943, 'active'),
+(37, 'Atlanta', 'GA', 33.7490, -84.3880, 498715, 'active'),
+(38, 'Kansas City', 'MO', 39.0997, -94.5786, 508394, 'active'),
+(39, 'Colorado Springs', 'CO', 38.8339, -104.8214, 483956, 'active'),
+(40, 'Miami', 'FL', 25.7617, -80.1918, 442241, 'active'),
+(41, 'Raleigh', 'NC', 35.7796, -78.6382, 474069, 'active'),
+(42, 'Omaha', 'NE', 41.2565, -95.9345, 486051, 'active'),
+(43, 'Long Beach', 'CA', 33.7701, -118.1937, 456062, 'active'),
+(44, 'Virginia Beach', 'VA', 36.8529, -75.9780, 459470, 'active'),
+(45, 'Oakland', 'CA', 37.8044, -122.2711, 433823, 'active'),
+(46, 'Minneapolis', 'MN', 44.9778, -93.2650, 429954, 'active'),
+(47, 'Tulsa', 'OK', 36.1539, -95.9928, 413066, 'active'),
+(48, 'Arlington', 'TX', 32.7357, -97.1081, 394266, 'active'),
+(49, 'New Orleans', 'LA', 29.9511, -90.0715, 383997, 'active'),
+(50, 'Cleveland', 'OH', 41.4993, -81.6944, 372624, 'active');
+
+
+
+-- ============================
+-- BASIC STARTER ZONES (OPTIONAL)
+-- ============================
+
+INSERT INTO zones (city_id, name, type, lat, lng) VALUES
+(37, 'South Atlanta', 'neighborhood', 33.70, -84.40),
+(24, 'East Detroit', 'neighborhood', 42.38, -83.00),
+(3, 'South Side', 'neighborhood', 41.75, -87.60),
+(40, 'Little Havana', 'neighborhood', 25.77, -80.22),
+(45, 'West Oakland', 'neighborhood', 37.81, -122.29);
+
+
+
+-- ============================
+-- NEWS SOURCES (RSS)
+-- ============================
+
+INSERT INTO sources (city_id, url, type, status) VALUES
+(1, 'https://www.nydailynews.com/arcio/rss/category/news/', 'rss', 'active'),
+(2, 'https://www.latimes.com/local/rss2.0.xml', 'rss', 'active'),
+(3, 'https://chicago.suntimes.com/rss', 'rss', 'active'),
+(4, 'https://www.houstonchronicle.com/local/feed/local-news', 'rss', 'active'),
+(5, 'https://www.azcentral.com/arcio/rss/category/news/', 'rss', 'active'),
+(6, 'https://www.inquirer.com/arcio/rss/category/news/', 'rss', 'active'),
+(7, 'https://www.mysanantonio.com/news/local/rss/', 'rss', 'active'),
+(8, 'https://www.sandiegouniontribune.com/rss2.0.xml', 'rss', 'active'),
+(9, 'https://www.dallasnews.com/arcio/rss/category/local/', 'rss', 'active'),
+(10, 'https://www.mercurynews.com/feed/', 'rss', 'active'),
+(11, 'https://www.statesman.com/arcio/rss/category/news/', 'rss', 'active'),
+(12, 'https://www.jacksonville.com/arcio/rss/category/news/', 'rss', 'active'),
+(13, 'https://www.star-telegram.com/news/local/?widgetName=rssfeed', 'rss', 'active'),
+(14, 'https://www.dispatch.com/arcio/rss/category/news/', 'rss', 'active'),
+(15, 'https://www.charlotteobserver.com/news/local/?widgetName=rssfeed', 'rss', 'active'),
+(16, 'https://www.sfchronicle.com/local/feed/local-news', 'rss', 'active'),
+(17, 'https://www.indystar.com/arcio/rss/category/news/', 'rss', 'active'),
+(18, 'https://www.seattletimes.com/feed/', 'rss', 'active'),
+(19, 'https://www.denverpost.com/feed/', 'rss', 'active'),
+(20, 'https://www.washingtonpost.com/arcio/rss/category/local/', 'rss', 'active'),
+(21, 'https://www.bostonglobe.com/rss/metro', 'rss', 'active'),
+(22, 'https://www.elpasotimes.com/arcio/rss/category/news/', 'rss', 'active'),
+(23, 'https://www.tennessean.com/arcio/rss/category/news/', 'rss', 'active'),
+(24, 'https://www.freep.com/arcio/rss/category/news/', 'rss', 'active'),
+(25, 'https://www.oklahoman.com/arcio/rss/category/news/', 'rss', 'active'),
+(26, 'https://www.oregonlive.com/news/atom.xml', 'rss', 'active'),
+(27, 'https://www.reviewjournal.com/feed/', 'rss', 'active'),
+(28, 'https://www.commercialappeal.com/arcio/rss/category/news/', 'rss', 'active'),
+(29, 'https://www.courier-journal.com/arcio/rss/category/news/', 'rss', 'active'),
+(30, 'https://www.baltimoresun.com/arcio/rss/category/news/', 'rss', 'active'),
+(31, 'https://www.jsonline.com/arcio/rss/category/news/', 'rss', 'active'),
+(32, 'https://www.abqjournal.com/feed', 'rss', 'active'),
+(33, 'https://tucson.com/search/?f=rss&t=article&c=news/local', 'rss', 'active'),
+(34, 'https://www.fresnobee.com/news/local/?widgetName=rssfeed', 'rss', 'active'),
+(35, 'https://www.eastvalleytribune.com/search/?f=rss&t=article&c=news', 'rss', 'active'),
+(36, 'https://www.sacbee.com/news/local/?widgetName=rssfeed', 'rss', 'active'),
+(37, 'https://www.ajc.com/arcio/rss/category/news/', 'rss', 'active'),
+(38, 'https://www.kansascity.com/news/local/?widgetName=rssfeed', 'rss', 'active'),
+(39, 'https://gazette.com/search/?f=rss&t=article&c=news', 'rss', 'active'),
+(40, 'https://www.miamiherald.com/news/local/?widgetName=rssfeed', 'rss', 'active'),
+(41, 'https://www.newsobserver.com/news/local/?widgetName=rssfeed', 'rss', 'active'),
+(42, 'https://omaha.com/search/?f=rss&t=article&c=news/local', 'rss', 'active'),
+(43, 'https://www.presstelegram.com/feed/', 'rss', 'active'),
+(44, 'https://www.pilotonline.com/arcio/rss/category/news/', 'rss', 'active'),
+(45, 'https://www.eastbaytimes.com/feed/', 'rss', 'active'),
+(46, 'https://www.startribune.com/local/index.rss2', 'rss', 'active'),
+(47, 'https://tulsaworld.com/search/?f=rss&t=article&c=news/local', 'rss', 'active'),
+(48, 'https://www.star-telegram.com/news/local/?widgetName=rssfeed', 'rss', 'active'),
+(49, 'https://www.nola.com/search/?f=rss&t=article&c=news', 'rss', 'active'),
+(50, 'https://www.cleveland.com/news/atom.xml', 'rss', 'active');
