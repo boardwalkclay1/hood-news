@@ -1,10 +1,24 @@
-import { scrapeRSS } from "./scrapers/rss.js";
-import { scrapeHTML } from "./scrapers/html.js";
-import { scrapeAPI } from "./scrapers/api.js";
-import { scrapeJobs } from "./scrapers/jobs.js";
-import { scrapeEvents } from "./scrapers/events.js";
-import { scrapeResources } from "./scrapers/resources.js";
+// =========================
+// IMPORT SCRAPERS (YOUR REAL FILES)
+// =========================
+import { scrapeRSS } from "./parsers/rssParsers.js";
+import { scrapeHTML } from "./parsers/htmlParser.js";
+import { scrapeAPI } from "./parsers/apiParser.js";
+import { scrapeJobs } from "./parsers/jobParser.js";
+import { scrapeEvents } from "./parsers/eventParser.js";
+import { scrapeResources } from "./parsers/resourcesParcer.js";
 
+// =========================
+// IMPORT NORMALIZERS
+// =========================
+import { normalizeArticle } from "./normalizers/normalizeArticle.js";
+import { normalizeEvent } from "./normalizers/normalizeEvent.js";
+import { normalizeResource } from "./normalizers/normalizeResource.js";
+import { normalizeJob } from "./normalizers/normalizejob.js";
+
+// =========================
+// IMPORT DB HELPERS
+// =========================
 import {
   saveArticle,
   saveJob,
@@ -24,9 +38,9 @@ import {
 } from "./db/queries.js";
 
 export default {
-  // ============================================================
+  // =========================
   // API ROUTES
-  // ============================================================
+  // =========================
   async fetch(request, env) {
     const url = new URL(request.url);
     const path = url.pathname;
@@ -89,16 +103,16 @@ export default {
     }
   },
 
-  // ============================================================
+  // =========================
   // CRON SCHEDULER
-  // ============================================================
+  // =========================
   async scheduled(event, env, ctx) {
     ctx.waitUntil(runScheduler(env));
   },
 
-  // ============================================================
-  // QUEUE CONSUMER (SCRAPER + NORMALIZER)
-  // ============================================================
+  // =========================
+  // QUEUE CONSUMER
+  // =========================
   async queue(batch, env, ctx) {
     for (const msg of batch.messages) {
       const body = msg.body;
@@ -114,9 +128,9 @@ export default {
   }
 };
 
-// ============================================================
+// =========================
 // SCHEDULER LOGIC
-// ============================================================
+// =========================
 async function runScheduler(env) {
   const db = env.DB;
 
@@ -132,72 +146,78 @@ async function runScheduler(env) {
   }
 }
 
-// ============================================================
+// =========================
 // SCRAPER LOGIC
-// ============================================================
+// =========================
 async function handleScrape(source, env) {
-  let items = [];
+  let rawItems = [];
 
   switch (source.type) {
     case "rss":
-      items = await scrapeRSS(source.url, source);
+      rawItems = await scrapeRSS(source.url, source);
       break;
     case "html":
-      items = await scrapeHTML(source.url, source);
+      rawItems = await scrapeHTML(source.url, source);
       break;
     case "api":
-      items = await scrapeAPI(source.url, source);
+      rawItems = await scrapeAPI(source.url, source);
       break;
     case "jobs":
-      items = await scrapeJobs(source.url, source);
+      rawItems = await scrapeJobs(source.url, source);
       break;
     case "events":
-      items = await scrapeEvents(source.url, source);
+      rawItems = await scrapeEvents(source.url, source);
       break;
     case "resources":
-      items = await scrapeResources(source.url, source);
+      rawItems = await scrapeResources(source.url, source);
       break;
   }
 
-  if (items.length > 0) {
+  if (rawItems.length > 0) {
     await env.NORMALIZE_QUEUE.send({
       type: "normalize",
       source_type: source.type,
-      items
+      items: rawItems
     });
   }
 }
 
-// ============================================================
+// =========================
 // NORMALIZER LOGIC
-// ============================================================
+// =========================
 async function handleNormalize(body, env) {
   const db = env.DB;
 
   for (const item of body.items) {
-    if (
-      body.source_type === "rss" ||
-      body.source_type === "html" ||
-      body.source_type === "api"
-    ) {
-      await saveArticle(db, item);
-    }
+    let normalized;
 
-    if (body.source_type === "jobs") {
-      await saveJob(db, item);
-    }
+    switch (body.source_type) {
+      case "rss":
+      case "html":
+      case "api":
+        normalized = normalizeArticle(item);
+        await saveArticle(db, normalized);
+        break;
 
-    if (body.source_type === "events") {
-      await saveEvent(db, item);
-    }
+      case "jobs":
+        normalized = normalizeJob(item);
+        await saveJob(db, normalized);
+        break;
 
-    if (body.source_type === "resources") {
-      await saveResource(db, item);
+      case "events":
+        normalized = normalizeEvent(item);
+        await saveEvent(db, normalized);
+        break;
+
+      case "resources":
+        normalized = normalizeResource(item);
+        await saveResource(db, normalized);
+        break;
     }
   }
 }
 
-// ============================================================
+// =========================
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
