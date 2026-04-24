@@ -2,17 +2,13 @@ name = "hood-news"
 main = "src/worker.js"
 compatibility_date = "2024-04-20"
 
-# -------------------------
-# D1 DATABASE
-# -------------------------
+# D1 Database
 [[d1_databases]]
 binding = "DB"
-database_name = "my-hood-news"
-database_id = "c6043640-1724-4eb8-a7cd-9e92876f9852"
+database_name = "hoodnews"
+database_id = "YOUR_DB_ID_HERE"
 
-# -------------------------
-# QUEUES
-# -------------------------
+# Queues
 [[queues.producers]]
 queue = "SCRAPE_QUEUE"
 binding = "SCRAPE_QUEUE"
@@ -23,14 +19,10 @@ binding = "NORMALIZE_QUEUE"
 
 [[queues.consumers]]
 queue = "SCRAPE_QUEUE"
-binding = "SCRAPE_QUEUE"
 
 [[queues.consumers]]
 queue = "NORMALIZE_QUEUE"
-binding = "NORMALIZE_QUEUE"
 
-# -------------------------
-# CRON
-# -------------------------
+# Cron
 [triggers]
 crons = ["*/15 * * * *"]
