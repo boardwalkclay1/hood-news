@@ -1,20 +1,20 @@
 // =========================
-// IMPORT SCRAPERS (YOUR REAL FILES)
+// IMPORT SCRAPERS (REAL PATHS FROM YOUR REPO)
 // =========================
-import { scrapeRSS } from "./parsers/rssParsers.js";
-import { scrapeHTML } from "./parsers/htmlParser.js";
-import { scrapeAPI } from "./parsers/apiParser.js";
-import { scrapeJobs } from "./parsers/jobParser.js";
-import { scrapeEvents } from "./parsers/eventParser.js";
-import { scrapeResources } from "./parsers/resourcesParcer.js";
+import { scrapeRSS } from "../scrapers/parsers/rssParsers.js";
+import { scrapeHTML } from "../scrapers/parsers/htmlParser.js";
+import { scrapeAPI } from "../scrapers/parsers/apiParser.js";
+import { scrapeJobs } from "../scrapers/parsers/jobParser.js";
+import { scrapeEvents } from "../scrapers/parsers/eventParser.js";
+import { scrapeResources } from "../scrapers/parsers/resourcesParcer.js";
 
 // =========================
-// IMPORT NORMALIZERS
+// IMPORT NORMALIZERS (REAL PATHS FROM YOUR REPO)
 // =========================
-import { normalizeArticle } from "./normalizers/normalizeArticle.js";
-import { normalizeEvent } from "./normalizers/normalizeEvent.js";
-import { normalizeResource } from "./normalizers/normalizeResource.js";
-import { normalizeJob } from "./normalizers/normalizejob.js";
+import { normalizeArticle } from "../scrapers/handlers/normalizeArticle.js";
+import { normalizeEvent } from "../scrapers/handlers/normalizeEvent.js";
+import { normalizeResource } from "../scrapers/handlers/normalizeResource.js";
+import { normalizeJob } from "../scrapers/handlers/normalizejob.js";
 
 // =========================
 // IMPORT DB HELPERS
