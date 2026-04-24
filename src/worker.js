@@ -1,5 +1,5 @@
 // =========================
-// IMPORT SCRAPERS (REAL PATHS FROM YOUR REPO)
+// SCRAPERS (MATCHES YOUR REAL FOLDERS)
 // =========================
 import { scrapeRSS } from "../scrapers/parsers/rssParsers.js";
 import { scrapeHTML } from "../scrapers/parsers/htmlParser.js";
@@ -9,7 +9,7 @@ import { scrapeEvents } from "../scrapers/parsers/eventParser.js";
 import { scrapeResources } from "../scrapers/parsers/resourcesParcer.js";
 
 // =========================
-// IMPORT NORMALIZERS (REAL PATHS FROM YOUR REPO)
+// NORMALIZERS (MATCHES YOUR REAL FOLDERS)
 // =========================
 import { normalizeArticle } from "../scrapers/handlers/normalizeArticle.js";
 import { normalizeEvent } from "../scrapers/handlers/normalizeEvent.js";
@@ -17,7 +17,7 @@ import { normalizeResource } from "../scrapers/handlers/normalizeResource.js";
 import { normalizeJob } from "../scrapers/handlers/normalizejob.js";
 
 // =========================
-// IMPORT DB HELPERS
+// DB HELPERS
 // =========================
 import {
   saveArticle,
@@ -48,13 +48,16 @@ export default {
 
     try {
       if (path === "/api/cities") return json(await getCities(db));
+
       if (path.startsWith("/api/cities/")) {
         const id = path.split("/").pop();
         return json(await getCity(db, id));
       }
+
       if (path === "/api/zones") {
         return json(await getZones(db, url.searchParams.get("city_id")));
       }
+
       if (path === "/api/editions") {
         return json(
           await getEditions(
@@ -64,11 +67,13 @@ export default {
           )
         );
       }
+
       if (path === "/api/articles") {
         return json(
           await getArticles(db, url.searchParams.get("city_id"), 50)
         );
       }
+
       if (path === "/api/jobs") {
         return json(
           await getJobs(
@@ -78,6 +83,7 @@ export default {
           )
         );
       }
+
       if (path === "/api/events") {
         return json(
           await getEvents(
@@ -87,6 +93,7 @@ export default {
           )
         );
       }
+
       if (path === "/api/resources") {
         return json(
           await getResources(
