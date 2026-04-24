@@ -1,8 +1,9 @@
-// Base API path – Worker exposes /api/* routes
+// Worker exposes /api/* routes
 const API = "/api";
 
 const citySelect = document.getElementById("citySelect");
 const zoneSelect = document.getElementById("zoneSelect");
+const tickerContent = document.getElementById("tickerContent");
 
 async function loadCities() {
   try {
@@ -62,6 +63,7 @@ async function loadSection(type, url) {
     const list = document.getElementById(`${type}List`);
     if (!Array.isArray(data) || data.length === 0) {
       list.innerHTML = `<div class="item"><p>No ${type} found.</p></div>`;
+      if (type === "articles") updateTicker([]);
       return;
     }
 
@@ -73,9 +75,30 @@ async function loadSection(type, url) {
         </div>
       `)
       .join("");
+
+    if (type === "articles") updateTicker(data);
   } catch (e) {
     console.error(`Error loading ${type}`, e);
   }
+}
+
+function updateTicker(articles) {
+  if (!articles || articles.length === 0) {
+    tickerContent.textContent = "No headlines yet. Scrapers are cooking...";
+    return;
+  }
+
+  const headlines = articles
+    .slice(0, 8)
+    .map(a => (a.title || a.name || "").trim())
+    .filter(Boolean);
+
+  if (headlines.length === 0) {
+    tickerContent.textContent = "No headlines yet. Scrapers are cooking...";
+    return;
+  }
+
+  tickerContent.textContent = headlines.join("   •   ");
 }
 
 citySelect.addEventListener("change", async () => {
