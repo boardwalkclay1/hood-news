@@ -16,34 +16,62 @@
     </div>
   </div>
 
+  <!-- Top Bar + Ticker -->
   <header>
-    <h1>HOOD NEWS</h1>
-    <p class="tagline">Real news from real neighborhoods</p>
-  </header>
+    <div class="brand-row">
+      <div class="brand">
+        <span class="brand-tag">HN</span>
+        <div>
+          <h1>Hood News</h1>
+          <p class="tagline">Real news from real neighborhoods</p>
+        </div>
+      </div>
+      <div class="controls">
+        <select id="citySelect"></select>
+        <select id="zoneSelect"></select>
+      </div>
+    </div>
 
-  <section id="controls">
-    <select id="citySelect"></select>
-    <select id="zoneSelect"></select>
-  </section>
+    <div class="ticker">
+      <div class="ticker-label">Breaking</div>
+      <div class="ticker-track">
+        <div class="ticker-content" id="tickerContent">
+          Loading latest headlines...
+        </div>
+      </div>
+    </div>
+  </header>
 
   <main>
     <section class="block" id="articlesBlock">
-      <h2>Articles</h2>
+      <div class="block-header">
+        <h2>Articles</h2>
+        <div class="page-flip"></div>
+      </div>
       <div class="list" id="articlesList"></div>
     </section>
 
     <section class="block" id="jobsBlock">
-      <h2>Jobs</h2>
+      <div class="block-header">
+        <h2>Jobs</h2>
+        <div class="page-flip"></div>
+      </div>
       <div class="list" id="jobsList"></div>
     </section>
 
     <section class="block" id="eventsBlock">
-      <h2>Events</h2>
+      <div class="block-header">
+        <h2>Events</h2>
+        <div class="page-flip"></div>
+      </div>
       <div class="list" id="eventsList"></div>
     </section>
 
     <section class="block" id="resourcesBlock">
-      <h2>Resources</h2>
+      <div class="block-header">
+        <h2>Resources</h2>
+        <div class="page-flip"></div>
+      </div>
       <div class="list" id="resourcesList"></div>
     </section>
   </main>
