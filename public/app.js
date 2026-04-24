@@ -1,30 +1,47 @@
-const API = location.origin.replace(/^https?:\/\//, "https://") + "/api";
+// Base API path – Worker exposes /api/* routes
+const API = "/api";
 
 const citySelect = document.getElementById("citySelect");
 const zoneSelect = document.getElementById("zoneSelect");
 
 async function loadCities() {
-  const res = await fetch(`${API}/cities`);
-  const cities = await res.json();
+  try {
+    const res = await fetch(`${API}/cities`);
+    const cities = await res.json();
 
-  citySelect.innerHTML = cities
-    .map(c => `<option value="${c.id}">${c.name}</option>`)
-    .join("");
+    if (!Array.isArray(cities) || cities.length === 0) {
+      citySelect.innerHTML = `<option>No cities</option>`;
+      return;
+    }
 
-  loadZones();
-  loadAllData();
+    citySelect.innerHTML = cities
+      .map(c => `<option value="${c.id}">${c.name}</option>`)
+      .join("");
+
+    await loadZones();
+    await loadAllData();
+  } catch (e) {
+    console.error("Error loading cities", e);
+  }
 }
 
 async function loadZones() {
-  const cityId = citySelect.value;
-  const res = await fetch(`${API}/zones?city_id=${cityId}`);
-  const zones = await res.json();
+  try {
+    const cityId = citySelect.value;
+    const res = await fetch(`${API}/zones?city_id=${cityId}`);
+    const zones = await res.json();
 
-  zoneSelect.innerHTML = zones
-    .map(z => `<option value="${z.id}">${z.name}</option>`)
-    .join("");
+    if (!Array.isArray(zones) || zones.length === 0) {
+      zoneSelect.innerHTML = `<option value="">All zones</option>`;
+      return;
+    }
 
-  loadAllData();
+    zoneSelect.innerHTML = zones
+      .map(z => `<option value="${z.id}">${z.name}</option>`)
+      .join("");
+  } catch (e) {
+    console.error("Error loading zones", e);
+  }
 }
 
 async function loadAllData() {
@@ -38,21 +55,41 @@ async function loadAllData() {
 }
 
 async function loadSection(type, url) {
-  const res = await fetch(url);
-  const data = await res.json();
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
 
-  const list = document.getElementById(`${type}List`);
-  list.innerHTML = data
-    .map(item => `
-      <div class="item">
-        <h3>${item.title || item.name}</h3>
-        <p>${item.description || item.summary || ""}</p>
-      </div>
-    `)
-    .join("");
+    const list = document.getElementById(`${type}List`);
+    if (!Array.isArray(data) || data.length === 0) {
+      list.innerHTML = `<div class="item"><p>No ${type} found.</p></div>`;
+      return;
+    }
+
+    list.innerHTML = data
+      .map(item => `
+        <div class="item">
+          <h3>${item.title || item.name || "Untitled"}</h3>
+          <p>${item.description || item.summary || ""}</p>
+        </div>
+      `)
+      .join("");
+  } catch (e) {
+    console.error(`Error loading ${type}`, e);
+  }
 }
 
-citySelect.addEventListener("change", loadZones);
+citySelect.addEventListener("change", async () => {
+  await loadZones();
+  await loadAllData();
+});
+
 zoneSelect.addEventListener("change", loadAllData);
 
+// Remove newspaper flash after animation
+setTimeout(() => {
+  const flash = document.getElementById("newspaperFlash");
+  if (flash) flash.remove();
+}, 2500);
+
+// Kick off
 loadCities();
