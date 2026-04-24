@@ -8,21 +8,27 @@ binding = "DB"
 database_name = "hoodnews"
 database_id = "YOUR_DB_ID_HERE"
 
-# Queues
+# ============================
+# QUEUES (VALID CONFIG)
+# ============================
+
+# Producers (Workers can SEND to these queues)
 [[queues.producers]]
-queue = "SCRAPE_QUEUE"
+queue = "scrape-queue"
 binding = "SCRAPE_QUEUE"
 
 [[queues.producers]]
-queue = "NORMALIZE_QUEUE"
+queue = "normalize-queue"
 binding = "NORMALIZE_QUEUE"
 
+# Consumers (Workers RECEIVE from these queues)
+# ❗ NO BINDING ALLOWED HERE
 [[queues.consumers]]
-queue = "SCRAPE_QUEUE"
+queue = "scrape-queue"
 
 [[queues.consumers]]
-queue = "NORMALIZE_QUEUE"
+queue = "normalize-queue"
 
-# Cron
+# Cron schedule
 [triggers]
 crons = ["*/15 * * * *"]
