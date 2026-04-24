@@ -5,8 +5,8 @@ compatibility_date = "2024-04-20"
 # D1 Database
 [[d1_databases]]
 binding = "DB"
-database_name = "hoodnews"
-database_id = "YOUR_DB_ID_HERE"
+database_name = "my-hood-news"
+database_id = "c6043640-1724-4eb8-a7cd-9e92876f9852"
 
 # ============================
 # QUEUES (VALID CONFIG)
